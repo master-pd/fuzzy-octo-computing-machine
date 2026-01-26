@@ -1,0 +1,305 @@
+/* Quantum Loader Animation */
+.quantum-loader {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 30px;
+}
+
+.quantum-dot {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(45deg, #00ff88, #00ccff);
+    border-radius: 50%;
+    animation: quantum-orbit 2s infinite linear;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.7);
+}
+
+.quantum-dot:nth-child(1) {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation-delay: 0s;
+}
+
+.quantum-dot:nth-child(2) {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    animation-delay: 0.5s;
+}
+
+.quantum-dot:nth-child(3) {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation-delay: 1s;
+}
+
+.quantum-dot:nth-child(4) {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    animation-delay: 1.5s;
+}
+
+@keyframes quantum-orbit {
+    0% {
+        transform: rotate(0deg) translateX(40px) rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg) translateX(40px) rotate(-360deg);
+    }
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.05);
+    }
+}
+
+/* Shine Animation */
+@keyframes shine {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* Float Animation */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Glitch Effect */
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+    }
+    20% {
+        transform: translate(-2px, 2px);
+    }
+    40% {
+        transform: translate(-2px, -2px);
+    }
+    60% {
+        transform: translate(2px, 2px);
+    }
+    80% {
+        transform: translate(2px, -2px);
+    }
+    100% {
+        transform: translate(0);
+    }
+}
+
+/* Progress Bar Animation */
+@keyframes progress-glow {
+    0% {
+        box-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.8), 0 0 30px rgba(0, 204, 255, 0.6);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+    }
+}
+
+/* Particle Animation */
+@keyframes particle-float {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Checkmark Animation */
+@keyframes checkmark {
+    0% {
+        stroke-dashoffset: 100;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Stage Transitions */
+@keyframes stageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes stageExit {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Apply animations */
+.stage {
+    animation: stageEnter 0.5s ease forwards;
+}
+
+.stage.exiting {
+    animation: stageExit 0.5s ease forwards;
+}
+
+/* Loader text animation */
+.loader-text {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Speed meter animation */
+#speed-meter {
+    display: inline-block;
+    background: linear-gradient(90deg, #00ff88, #00ccff, #00ff88);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shine 2s linear infinite;
+}
+
+/* Progress bar animation */
+.progress-fill {
+    animation: progress-glow 2s infinite;
+}
+
+/* Particle field */
+.particle-field {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle-field::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(0, 255, 136, 0.5);
+    border-radius: 50%;
+    animation: particle-float 10s linear infinite;
+    left: 10%;
+}
+
+.particle-field::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(0, 204, 255, 0.5);
+    border-radius: 50%;
+    animation: particle-float 15s linear infinite 2s;
+    left: 30%;
+}
+
+.particle-field .particle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: particle-float linear infinite;
+}
+
+/* Create multiple particles */
+.particle-field .particle:nth-child(1) {
+    left: 20%;
+    animation-duration: 12s;
+    animation-delay: 1s;
+}
+
+.particle-field .particle:nth-child(2) {
+    left: 50%;
+    animation-duration: 18s;
+    animation-delay: 4s;
+}
+
+.particle-field .particle:nth-child(3) {
+    left: 70%;
+    animation-duration: 14s;
+    animation-delay: 2s;
+}
+
+.particle-field .particle:nth-child(4) {
+    left: 90%;
+    animation-duration: 16s;
+    animation-delay: 3s;
+}
+
+/* Glow effect */
+.glow-effect {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 255, 0.05) 40%, transparent 70%);
+    filter: blur(40px);
+    z-index: -2;
+    animation: pulse 4s ease-in-out infinite;
+}
+
+/* Responsive animations */
+@media (max-width: 768px) {
+    .quantum-loader {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .quantum-dot {
+        width: 12px;
+        height: 12px;
+    }
+    
+    @keyframes quantum-orbit {
+        0% {
+            transform: rotate(0deg) translateX(30px) rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg) translateX(30px) rotate(-360deg);
+        }
+    }
+}
