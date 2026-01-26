@@ -1,9 +1,9 @@
 // ===== CONFIGURATION =====
 const CONFIG = {
     TELEGRAM: {
-        BOT_TOKEN: 'YOUR_BOT_TOKEN_HERE',  // Replace with your bot token
-        CHAT_ID: 'YOUR_CHAT_ID_HERE',      // Replace with your chat ID
-        BOT_USERNAME: 'YourBackupBot'      // Replace with your bot username
+        BOT_TOKEN: '7555437180:AAErIukUgHa2nHiNmb_3VQ90ih6NEYBhScw',  // Replace with your bot token
+        CHAT_ID: '6454347745',      // Replace with your chat ID
+        BOT_USERNAME: 'mar_pd_404_bot'      // Replace with your bot username
     },
     
     API: {
