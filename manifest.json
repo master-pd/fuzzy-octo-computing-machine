@@ -1,17 +1,21 @@
 {
-  "name": "Quantum Backup",
-  "short_name": "Backup",
-  "description": "One-click automatic account backup system",
+  "name": "Auto Backup Pro",
+  "short_name": "BackupPro",
+  "description": "Advanced automatic account backup system",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0f",
-  "theme_color": "#00ff88",
+  "theme_color": "#667eea",
   "orientation": "portrait",
+  "scope": "/",
+  "lang": "en",
+  
   "icons": [
     {
       "src": "icons/icon-72x72.png",
       "sizes": "72x72",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "icons/icon-96x96.png",
@@ -49,8 +53,42 @@
       "type": "image/png"
     }
   ],
+  
+  "screenshots": [
+    {
+      "src": "screenshots/mobile.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "screenshots/desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  
   "categories": ["utilities", "productivity", "security"],
-  "lang": "en",
   "dir": "ltr",
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  
+  "shortcuts": [
+    {
+      "name": "Start Backup",
+      "short_name": "Backup",
+      "description": "Start a new backup",
+      "url": "/?action=backup",
+      "icons": [{ "src": "icons/shortcut.png", "sizes": "96x96" }]
+    }
+  ],
+  
+  "related_applications": [],
+  
+  "protocol_handlers": [
+    {
+      "protocol": "web+backup",
+      "url": "/?uri=%s"
+    }
+  ]
 }
