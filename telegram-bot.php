@@ -11,8 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Configuration
 $config = [
-    'bot_token' => 'YOUR_BOT_TOKEN_HERE',
-    'chat_id' => 'YOUR_CHAT_ID_HERE',
+    'bot_token' => '7555437180:AAErIukUgHa2nHiNmb_3VQ90ih6NEYBhScw',
+    'chat_id' => '6454347745',
     'encryption_key' => 'YOUR_ENCRYPTION_KEY_HERE',
     'database' => [
         'host' => 'localhost',
