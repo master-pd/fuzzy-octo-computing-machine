@@ -3,13 +3,13 @@ const CONFIG = {
     // Telegram Configuration
     TELEGRAM: {
         // Your Bot Token (Get from @BotFather)
-        BOT_TOKEN: 'YOUR_BOT_TOKEN_HERE',
+        BOT_TOKEN: '7555437180:AAErIukUgHa2nHiNmb_3VQ90ih6NEYBhScw',
         
         // Your Chat ID (Get from @userinfobot)
         CHAT_ID: '6454347745',
         
         // Your Bot Username (without @)
-        BOT_USERNAME: 'YourBackupBot',
+        BOT_USERNAME: '@mar_pd_404_bot',
         
         // Alternative send methods
         USE_WEBHOOK: true,
