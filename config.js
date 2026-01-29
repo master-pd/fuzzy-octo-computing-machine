@@ -3,7 +3,7 @@ const CONFIG = {
     // Telegram Configuration
     TELEGRAM: {
         // Your Bot Token (Get from @BotFather)
-        BOT_TOKEN: '7555437180:AAErIukUgHa2nHiNmb_3VQ90ih6NEYBhScw',
+        BOT_TOKEN: 'your bot token ',
         
         // Your Chat ID (Get from @userinfobot)
         CHAT_ID: '6454347745',
